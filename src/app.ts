@@ -1,6 +1,9 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import mainRouter from "./routes";
+import globalErrorHandler from "./middlewares/global-error-handler";
+import { notFound } from "./middlewares/not-found";
 
 const app = express();
 app.use(cookieParser());
@@ -20,5 +23,8 @@ app.get("/", (req: Request, res: Response) => {
 	});
 });
 
+app.use("/api/v1/", mainRouter);
+app.use(globalErrorHandler);
+app.use(notFound);
 
 export default app;
